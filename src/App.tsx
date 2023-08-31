@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { createUseStyles } from "react-jss"
 
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
+import { createUseStyles, useTheme } from './theme'
 
-const useStyles = createUseStyles({
+const useStyles = createUseStyles((theme) => ({
   logo: {
     height: "6em",
     padding: "1.5em",
@@ -18,12 +18,16 @@ const useStyles = createUseStyles({
     padding: "2em",
   },
   readTheDocs: {
-    color: "#888",
+    color: theme.colors.gray,
+  },
+  header: {
+    fontFamily: theme.fonts.archivoBlack
   }
-})
+}))
 
 function App() {
-  const styles = useStyles()
+  const theme = useTheme()
+  const styles = useStyles({ theme })
   const [count, setCount] = useState(0)
 
   return (
@@ -36,7 +40,7 @@ function App() {
           <img src={reactLogo} className={styles.logo} alt="React logo" />
         </a>
       </div>
-      <h1>Vite + React</h1>
+      <h1 className={styles.header}>Vite + React</h1>
       <div className={styles.card}>
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
