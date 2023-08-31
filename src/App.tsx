@@ -25,7 +25,7 @@ const useStyles = createUseStyles((theme) => ({
   }
 }))
 
-function App() {
+export const App: React.FC = () => {
   const theme = useTheme()
   const styles = useStyles({ theme })
   const [count, setCount] = useState(0)
@@ -55,5 +55,3 @@ function App() {
     </>
   )
 }
-
-export default App

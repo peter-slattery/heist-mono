@@ -6,8 +6,12 @@ export const theme = {
     inter: "'Inter', sans-serif"
   },
   colors: {
+    white: "#FFFFFF",
+    gray300: "#E1E1E1",
+    gray400: "#B7B7B7",
     black: "#000000",
-    gray: "#FF0000"
+    yellow: "#E6FE74",
+    orange: "#FE6232"
   },
 }
 
