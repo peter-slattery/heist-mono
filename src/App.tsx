@@ -1,23 +1,43 @@
 import { useState } from 'react'
+import { createUseStyles } from "react-jss"
+
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
-import './App.css'
+
+const useStyles = createUseStyles({
+  logo: {
+    height: "6em",
+    padding: "1.5em",
+    willChange: "filter",
+    transition: "filter 300ms",
+    "&:hover": {
+      filter: "drop-shadow(0 0 2em #646cffaa)",
+    },
+  },
+  card: {
+    padding: "2em",
+  },
+  readTheDocs: {
+    color: "#888",
+  }
+})
 
 function App() {
+  const styles = useStyles()
   const [count, setCount] = useState(0)
 
   return (
     <>
       <div>
         <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
+          <img src={viteLogo} className={styles.logo} alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
+          <img src={reactLogo} className={styles.logo} alt="React logo" />
         </a>
       </div>
       <h1>Vite + React</h1>
-      <div className="card">
+      <div className={styles.card}>
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
@@ -25,7 +45,7 @@ function App() {
           Edit <code>src/App.tsx</code> and save to test HMR
         </p>
       </div>
-      <p className="read-the-docs">
+      <p className={styles.readTheDocs}>
         Click on the Vite and React logos to learn more
       </p>
     </>
