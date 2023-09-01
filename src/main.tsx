@@ -1,22 +1,36 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
+import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { ThemeProvider } from 'react-jss'
 import { theme } from "./theme.ts"
 import './index.css'
-import { HomeScreen } from './screens/Home/HomeScreen.tsx'
+import { LandingScreen } from './screens/Landing/LandingScreen.tsx'
+import { AuthContextProvider } from './auth/AuthContext.tsx'
+import { AuthenticatedRoute } from './auth/AuthenticatedRoute.tsx'
+import { UserHomeScreen } from './screens/UserHome/UserHomeScreen.tsx'
+import netlifyIdentity from "netlify-identity-widget"
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <HomeScreen />
-  },
-])
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(window as any).netlifyIdentity = netlifyIdentity;
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <RouterProvider router={router} />
-    </ThemeProvider>
+    <AuthContextProvider>
+      <ThemeProvider theme={theme}>
+        <BrowserRouter>
+          <Routes>
+            <Route path="/" element={<LandingScreen />} />
+            <Route 
+              path="/home" 
+              element={
+                <AuthenticatedRoute>
+                  <UserHomeScreen />
+                </AuthenticatedRoute>
+              }
+            />
+          </Routes>
+        </BrowserRouter>
+      </ThemeProvider>
+    </AuthContextProvider>
   </React.StrictMode>,
 )

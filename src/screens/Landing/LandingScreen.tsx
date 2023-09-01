@@ -2,6 +2,7 @@ import classNames from "classnames"
 import { PillButton } from "../../designSystem/PillButton"
 import { H1, H3 } from "../../designSystem/Typography"
 import { createUseStyles, useTheme } from "../../theme"
+import { useAuth } from "../../auth/AuthContext"
 
 const useStyles = createUseStyles(theme => ({
   fullWidthSection: {
@@ -36,9 +37,12 @@ const useStyles = createUseStyles(theme => ({
   }
 }))
 
-export const HomeScreen = () => {
+export const LandingScreen = () => {
   const theme = useTheme()
   const styles = useStyles({ theme })
+
+  const { openLoginForm } = useAuth()
+
   return (
     <div>
       <div className={styles.fullWidthSection}>
@@ -47,7 +51,7 @@ export const HomeScreen = () => {
             <H1>Heist</H1>
             <H3>You do the daydreaming, <br />we'll do the investing to make it happen.</H3>
           </div>
-          <PillButton onClick={() => console.log("Click")}>
+          <PillButton onClick={() => openLoginForm('login')}>
             Start Building
           </PillButton>
         </div>
