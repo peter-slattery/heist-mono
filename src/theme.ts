@@ -11,6 +11,7 @@ export const theme = {
     gray400: "#B7B7B7",
     black: "#000000",
     yellow: "#E6FE74",
+    pukeYellow: "#BFB03D",
     orange: "#FE6232"
   },
 }

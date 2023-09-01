@@ -16,12 +16,26 @@ const useStyles = createUseStyles(theme => ({
     fontWeight: "400",
     lineHeight: "normal",
   },
+  h4: {
+    fontFamily: theme.fonts.inter,
+    fontSize: "18px",
+    fontStyle: "normal",
+    fontWeight: "400",
+    lineHeight: "normal",
+  },
   bodyButton: {
     fontFamily: theme.fonts.inter,
     fontSize: "16px",
     fontStyle: "normal",
     fontWeight: "400",
     lineHeight: "150%",
+  },
+  bodyButtonSmall: {
+    fontFamily: theme.fonts.inter,
+    fontSize: "13px",
+    fontStyle: "normal",
+    fontWeight: "400",
+    lineHeight: "100%",
   }
 }))
 
@@ -45,10 +59,26 @@ export const H3 = ({ children, className }: Props) => {
   )
 }
 
+export const H4 = ({ children, className }: Props) => {
+  const theme = useTheme()
+  const styles = useStyles({theme})
+  return (
+    <h3 className={classNames(styles.h4, className)}>{children}</h3>
+  )
+}
+
 export const BodyButton = ({ children, className }: Props) => {
   const theme = useTheme()
   const styles = useStyles({theme})
   return (
     <div className={classNames(styles.bodyButton, className)}>{children}</div>
+  )
+}
+
+export const BodyButtonSmall = ({ children, className }: Props) => {
+  const theme = useTheme()
+  const styles = useStyles({theme})
+  return (
+    <div className={classNames(styles.bodyButtonSmall, className)}>{children}</div>
   )
 }
