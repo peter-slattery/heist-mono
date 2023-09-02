@@ -22,7 +22,7 @@ const useStyles = createUseStyles((theme) => ({
     backgroundColor: theme.colors.pukeYellow,
     color: theme.colors.white,
     borderRadius: 6,
-    padding: [13, 17],
+    padding: "13px 17px",
     border: "none",
     cursor: "pointer",
   }

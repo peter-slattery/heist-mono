@@ -1,8 +1,8 @@
-import { BodyButtonSmall, H4 } from "../../designSystem/Typography"
+import { H4 } from "../../designSystem/Typography"
 import { createUseStyles, useTheme } from "../../theme"
-import { useOnboarding, daydreamOptions, DaydreamOptionKey } from "./OnboardingContext"
+import { useOnboarding, DaydreamOptionKey } from "./OnboardingContext"
 
-const useStyles = createUseStyles((theme) => ({
+const useStyles = createUseStyles(() => ({
   layout: {
     height: "100%",
     display: "flex",
@@ -18,14 +18,6 @@ const useStyles = createUseStyles((theme) => ({
     display: "flex",
     gap: 8
   },
-  button: {
-    backgroundColor: theme.colors.pukeYellow,
-    color: theme.colors.white,
-    borderRadius: 6,
-    padding: [13, 17],
-    border: "none",
-    cursor: "pointer",
-  }
 }))
 
 const daydreamMessages: Record<DaydreamOptionKey, string> = {
@@ -37,9 +29,9 @@ const daydreamMessages: Record<DaydreamOptionKey, string> = {
 
 export const OnboardingChooseADate = () => {
   const theme = useTheme()
-  const styles = useStyles({ theme })
+  const styles = useStyles({theme})
 
-  const { daydreamOption, advance } = useOnboarding()
+  const { daydreamOption  } = useOnboarding()
   if (!daydreamOption) throw new Error("daydreamOption must be set")
 
   const message = daydreamMessages[daydreamOption]
