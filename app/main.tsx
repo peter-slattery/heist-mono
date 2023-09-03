@@ -23,6 +23,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<LandingScreen />} />
+            <Route path="/test" element={<div>Test</div>} />
             <Route
               path="/home"
               element={

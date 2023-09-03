@@ -5,6 +5,11 @@ import {
   HandlerResponse,
 } from "@netlify/functions"
 import { HeistUser } from "../common/types"
+import {
+  ApiAuthenticatedHandler,
+  ApiHandler,
+  AuthenticatedHandlerContext,
+} from "@heist/common/contracts"
 
 const makeResponse = (statusCode: number, body: unknown): HandlerResponse => {
   const result: HandlerResponse = {
@@ -25,20 +30,11 @@ export const makeHandler = (handler: Handler): Handler => {
   }
 }
 
-type AuthenticatedHandlerContext = Omit<HandlerContext, "clientContext"> & {
-  clientContext: {
-    user: HeistUser
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    [key: string]: any
-  }
-}
-export type AuthenticatedHandler = (
-  event: HandlerEvent,
-  context: AuthenticatedHandlerContext
-) => unknown | undefined
-
-export const makeAuthenticatedHandler = (
-  handler: AuthenticatedHandler
+export const makeAuthenticatedHandler = <
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  THandler extends ApiAuthenticatedHandler<any, any>
+>(
+  handler: THandler
 ): Handler => {
   return async (event, context) => {
     if (!context.clientContext) {
@@ -48,7 +44,11 @@ export const makeAuthenticatedHandler = (
       )
     }
     try {
+      const request = (
+        event.body ? JSON.parse(event.body) : {}
+      ) as Parameters<THandler>[0]
       const result = await handler(
+        request,
         event,
         context as AuthenticatedHandlerContext
       )

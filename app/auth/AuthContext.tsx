@@ -2,6 +2,7 @@ import {
   PropsWithChildren,
   useContext,
   useEffect,
+  useMemo,
   useRef,
   useState,
 } from "react"
@@ -14,13 +15,16 @@ import netlifyIdentity, {
 } from "netlify-identity-widget"
 import { HeistUser, UserProfile } from "@heist/common/types"
 
+import { makeApiClient } from "../apiClient"
+
 export type AuthContext = {
   loading: boolean
   user: User | null
   profile: UserProfile | null
+  api: ReturnType<typeof makeApiClient>
   openLoginForm: typeof openLoginForm
   logout: () => Promise<void>
-  fetch: (input: RequestInfo, init?: RequestInit) => ReturnType<typeof fetch>
+  //fetch: (input: RequestInfo, init?: RequestInit) => ReturnType<typeof fetch>
 }
 
 const Context = createContextWithoutDefault<AuthContext>()
@@ -31,6 +35,11 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
 
   const jwtRef = useRef<string | null>(null)
   const [profile, setProfile] = useState<UserProfile | null>(null)
+
+  const apiClient = useMemo(
+    () => makeApiClient(jwtRef.current),
+    [jwtRef.current]
+  )
 
   useEffectOnMount(() => {
     netlifyIdentity.on("init", (user) => {
@@ -51,24 +60,19 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     if (!user) return
     if (user.user_metadata.userId) {
-      authenticatedFetch("/api/userProfileGet", {
-        method: "GET",
-      })
-        .then(async (res) => {
-          if (res.ok) {
-            return res.json()
-          } else {
-            return authenticatedFetch("/api/userProfileCreate", {
-              method: "POST",
-            }).then(async () => {
-              return authenticatedFetch("/api/userProfileGet", {
-                method: "GET",
-              })
+      apiClient
+        .userProfileGet({})
+        .then((res) => {
+          if (!res.profile) {
+            return apiClient.userProfileCreate({}).then((res) => {
+              return res.profile
             })
+          } else {
+            return res.profile
           }
         })
-        .then((body) => {
-          setProfile(body as UserProfile)
+        .then((profile) => {
+          setProfile(profile ?? null)
         })
     } else {
       throw new Error("HANDLE ME: User is authenticated without a userId")
@@ -81,29 +85,6 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
     jwtRef.current = null
   }
 
-  const authenticatedFetch = (input: RequestInfo, init?: RequestInit) => {
-    if (!user || !jwtRef.current) {
-      throw new Error(
-        "Attempting to call authenticatedFetch before the user is logged in"
-      )
-    }
-    const Authorization = `Bearer ${jwtRef.current}`
-    if (!init) {
-      init = {
-        headers: {
-          Authorization,
-        },
-      }
-    } else if (!init.headers) {
-      init.headers = {
-        Authorization,
-      }
-    } else {
-      throw new Error("init already had an Authorization header")
-    }
-    return fetch(input, init)
-  }
-
   return (
     <Context.Provider
       value={{
@@ -112,7 +93,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         profile,
         openLoginForm,
         logout,
-        fetch: authenticatedFetch,
+        api: apiClient,
       }}
     >
       {children}
