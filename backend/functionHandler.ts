@@ -1,13 +1,6 @@
-import {
-  Handler,
-  HandlerContext,
-  HandlerEvent,
-  HandlerResponse,
-} from "@netlify/functions"
-import { HeistUser } from "../common/types"
+import { Handler, HandlerResponse } from "@netlify/functions"
 import {
   ApiAuthenticatedHandler,
-  ApiHandler,
   AuthenticatedHandlerContext,
 } from "@heist/common/contracts"
 
