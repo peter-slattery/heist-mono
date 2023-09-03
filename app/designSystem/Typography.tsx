@@ -1,7 +1,7 @@
 import classNames from "classnames"
 import { createUseStyles, useTheme } from "../theme"
 
-const useStyles = createUseStyles(theme => ({
+const useStyles = createUseStyles((theme) => ({
   h1: {
     fontFamily: theme.fonts.archivoBlack,
     fontSize: "36px",
@@ -23,6 +23,12 @@ const useStyles = createUseStyles(theme => ({
     fontWeight: "400",
     lineHeight: "normal",
   },
+  body: {
+    fontSize: 18,
+    fontStyle: "normal",
+    fontWeight: 400,
+    lineHeight: "normal",
+  },
   bodyButton: {
     fontFamily: theme.fonts.inter,
     fontSize: "16px",
@@ -36,7 +42,7 @@ const useStyles = createUseStyles(theme => ({
     fontStyle: "normal",
     fontWeight: "400",
     lineHeight: "100%",
-  }
+  },
 }))
 
 type Props = {
@@ -45,31 +51,31 @@ type Props = {
 
 export const H1 = ({ children, className }: Props) => {
   const theme = useTheme()
-  const styles = useStyles({theme})
-  return (
-    <h1 className={classNames(styles.h1, className)}>{children}</h1>
-  )
+  const styles = useStyles({ theme })
+  return <h1 className={classNames(styles.h1, className)}>{children}</h1>
 }
 
 export const H3 = ({ children, className }: Props) => {
   const theme = useTheme()
-  const styles = useStyles({theme})
-  return (
-    <h3 className={classNames(styles.h3, className)}>{children}</h3>
-  )
+  const styles = useStyles({ theme })
+  return <h3 className={classNames(styles.h3, className)}>{children}</h3>
 }
 
 export const H4 = ({ children, className }: Props) => {
   const theme = useTheme()
-  const styles = useStyles({theme})
-  return (
-    <h3 className={classNames(styles.h4, className)}>{children}</h3>
-  )
+  const styles = useStyles({ theme })
+  return <h3 className={classNames(styles.h4, className)}>{children}</h3>
+}
+
+export const Body = ({ children, className }: Props) => {
+  const theme = useTheme()
+  const styles = useStyles({ theme })
+  return <div className={classNames(styles.body, className)}>{children}</div>
 }
 
 export const BodyButton = ({ children, className }: Props) => {
   const theme = useTheme()
-  const styles = useStyles({theme})
+  const styles = useStyles({ theme })
   return (
     <div className={classNames(styles.bodyButton, className)}>{children}</div>
   )
@@ -77,8 +83,10 @@ export const BodyButton = ({ children, className }: Props) => {
 
 export const BodyButtonSmall = ({ children, className }: Props) => {
   const theme = useTheme()
-  const styles = useStyles({theme})
+  const styles = useStyles({ theme })
   return (
-    <div className={classNames(styles.bodyButtonSmall, className)}>{children}</div>
+    <div className={classNames(styles.bodyButtonSmall, className)}>
+      {children}
+    </div>
   )
 }
