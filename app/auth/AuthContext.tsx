@@ -1,4 +1,10 @@
-import { PropsWithChildren, useContext, useEffect, useState } from "react"
+import {
+  PropsWithChildren,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react"
 import { createContextWithoutDefault } from "../utils/createDefaultContext"
 import { useEffectOnMount } from "../utils/useEffects"
 import netlifyIdentity, {
@@ -22,7 +28,8 @@ const Context = createContextWithoutDefault<AuthContext>()
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<HeistUser | null>(null)
-  const [jwt, setJwt] = useState<string | null>(null)
+
+  const jwtRef = useRef<string | null>(null)
   const [profile, setProfile] = useState<UserProfile | null>(null)
 
   useEffectOnMount(() => {
@@ -34,7 +41,7 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
       netlifyIdentity.refresh().then((jwt) => {
         const heistUser = user as HeistUser
         setUser(heistUser)
-        setJwt(jwt)
+        jwtRef.current = jwt
         closeLoginForm()
       })
     })
@@ -71,16 +78,16 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const logout = async () => {
     await netlifyIdentity.logout()
     setUser(null)
-    setJwt(null)
+    jwtRef.current = null
   }
 
   const authenticatedFetch = (input: RequestInfo, init?: RequestInit) => {
-    if (!user || !jwt) {
+    if (!user || !jwtRef.current) {
       throw new Error(
         "Attempting to call authenticatedFetch before the user is logged in"
       )
     }
-    const Authorization = `Bearer ${jwt}`
+    const Authorization = `Bearer ${jwtRef.current}`
     if (!init) {
       init = {
         headers: {
