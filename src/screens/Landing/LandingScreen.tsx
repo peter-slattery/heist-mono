@@ -3,6 +3,9 @@ import { PillButton } from "../../designSystem/PillButton"
 import { H1, H3 } from "../../designSystem/Typography"
 import { createUseStyles, useTheme } from "../../theme"
 import { useAuth } from "../../auth/AuthContext"
+import { useEffectOnMount } from "../../utils/useEffects"
+import netlifyIdentity from "netlify-identity-widget"
+import { Layout } from "../Layout"
 
 const useStyles = createUseStyles(theme => ({
   fullWidthSection: {
@@ -43,15 +46,37 @@ export const LandingScreen = () => {
 
   const { openLoginForm } = useAuth()
 
+  useEffectOnMount(() => {
+    const currentUser = netlifyIdentity.currentUser()
+    if (!currentUser) {
+      console.log("No user")
+      return
+    }
+
+    netlifyIdentity.refresh()
+      .then((jwt) => {
+        console.log(jwt)
+        return fetch("/api/testFunction", {
+          headers: {
+            Authorization: `Bearer ${jwt}`
+          }
+        })
+      })
+      .then(async (r) => {
+        console.log(await r.text())
+      })
+
+  })
+
   return (
-    <div>
+    <Layout>
       <div className={styles.fullWidthSection}>
         <div className={styles.heroHeader}>
           <div className={styles.heroHeaderText}>
             <H1>Heist</H1>
             <H3>You do the daydreaming, <br />we'll do the investing to make it happen.</H3>
           </div>
-          <PillButton onClick={() => openLoginForm('login')}>
+          <PillButton onClick={() => openLoginForm('signup')}>
             Start Building
           </PillButton>
         </div>
@@ -59,6 +84,6 @@ export const LandingScreen = () => {
       <div className={classNames(styles.fullWidthSection, styles.videoPlaceholder)}>
         <H1>How It Works Video</H1>
       </div>
-    </div>
+    </Layout>
   )
 }
