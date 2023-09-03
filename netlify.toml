@@ -1,5 +1,5 @@
 [build]
-  functions = "functions/"
+  functions = "backend/api/"
 
 [[redirects]]
   from = '/api/*'

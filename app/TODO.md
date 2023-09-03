@@ -9,5 +9,10 @@
     [] - Common Footer
 [] - Authenticated Home
 
-## CI / CD
-- figure out how to run migrations on deploy
+## Testing
+
+- pull out profile creation into a testable thing
+
+## Typing 
+
+- figure out a way for functions and the frontend to understand eachothers types

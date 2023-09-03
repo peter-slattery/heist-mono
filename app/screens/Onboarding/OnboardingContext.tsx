@@ -1,14 +1,9 @@
 import { PropsWithChildren, useContext, useState } from "react"
 import { createContextWithoutDefault } from "../../utils/createDefaultContext"
+import { DaydreamOptionKey } from "../../../common/types"
 import { useLocation, useNavigate } from "react-router-dom"
 
-export type DaydreamOptionKey = 
-  "wedding" |
-  "home" |
-  "travel" |
-  "financial_flexibility"
-
-type DaydreamOption = { name: string, key: DaydreamOptionKey }
+type DaydreamOption = { name: string; key: DaydreamOptionKey }
 
 export const daydreamOptions: DaydreamOption[] = [
   { name: "Wedding", key: "wedding" },
@@ -18,15 +13,16 @@ export const daydreamOptions: DaydreamOption[] = [
 ]
 
 type OnboardingContext = {
-  daydreamOption: DaydreamOptionKey | null,
-  setDaydreamOption: (value: DaydreamOptionKey | null) => void,
+  daydreamOption: DaydreamOptionKey | null
+  setDaydreamOption: (value: DaydreamOptionKey | null) => void
   advance: () => void
 }
 
 const Context = createContextWithoutDefault<OnboardingContext>()
 
 export const OnboardingProvider = ({ children }: PropsWithChildren) => {
-  const [ daydreamOption, setDaydreamOption ] = useState<DaydreamOptionKey | null>(null)
+  const [daydreamOption, setDaydreamOption] =
+    useState<DaydreamOptionKey | null>(null)
 
   const location = useLocation()
   const navigate = useNavigate()
@@ -49,7 +45,7 @@ export const OnboardingProvider = ({ children }: PropsWithChildren) => {
         advance,
       }}
     >
-      { children }
+      {children}
     </Context.Provider>
   )
 }

@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "scripts": {
     "test": "jest",
-    "db:down": "docker compose -f infra/local-dynamodb.compose.yml down",
-    "db:up": "docker compose -f infra/local-dynamodb.compose.yml up",
+    "db:down": "docker compose -f backend/infra/local-dynamodb.compose.yml down",
+    "db:up": "docker compose -f backend/infra/local-dynamodb.compose.yml up",
     "dev:vite": "vite",
     "dev:netlify": "netlify dev",
     "run_migrations": "ts-node --skip-project ./infra/migrations/run.ts",
