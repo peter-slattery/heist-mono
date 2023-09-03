@@ -9,9 +9,6 @@ export const handler: Handler = async function(event) {
   }
   const user = JSON.parse(event.body).user;
   const userId = uuidv4()
-  console.log("User Signup")
-  console.log(user)
-  console.log("User Id", userId)
 
   return {
     body: JSON.stringify({
