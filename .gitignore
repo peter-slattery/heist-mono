@@ -27,4 +27,4 @@ dist-ssr
 .netlify
 .env
 
-infra/docker
+backend/infra/docker
