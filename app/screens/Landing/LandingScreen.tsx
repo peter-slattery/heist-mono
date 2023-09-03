@@ -4,6 +4,8 @@ import { H1, H3 } from "../../designSystem/Typography"
 import { createUseStyles, useTheme } from "../../theme"
 import { useAuth } from "../../auth/AuthContext"
 import { Layout } from "../Layout"
+import { useEffect } from "react"
+import { useNavigate } from "react-router-dom"
 
 const useStyles = createUseStyles((theme) => ({
   fullWidthSection: {
@@ -42,7 +44,14 @@ export const LandingScreen = () => {
   const theme = useTheme()
   const styles = useStyles({ theme })
 
-  const { openLoginForm } = useAuth()
+  const { user, openLoginForm } = useAuth()
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user) {
+      navigate("/home")
+    }
+  }, [user])
 
   return (
     <Layout>
