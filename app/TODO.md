@@ -9,6 +9,9 @@
     [] - Common Footer
 [] - Authenticated Home
 
+## SEO
+- add headers to index.html
+
 ## Testing
 
 - pull out profile creation into a testable thing
