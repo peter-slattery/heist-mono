@@ -1,10 +1,13 @@
 # TODO
 
 [] - Onboarding
-  [] - Onboarding Router
+  [x] - Onboarding Router
   [] - Onboarding Screens
-    [] - Daydreaming of?
+    [x] - Daydreaming of?
     [] - Choose a Date
     [] - High Yield Savings Account
     [] - Common Footer
 [] - Authenticated Home
+
+## CI / CD
+- figure out how to run migrations on deploy

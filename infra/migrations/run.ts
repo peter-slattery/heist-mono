@@ -55,6 +55,7 @@ const migrationFileRunSuccess = async (filename: string, env: Env) => {
 }
 
 const main = async () => {
+  console.log(" ==== Running Migrations ==== ")
   const thisFile = path.basename(__filename)
   const migrationsDir = path.resolve(__dirname)
   const migrationFiles = fs
@@ -76,6 +77,8 @@ const main = async () => {
       }
     }
   }
+
+  console.log(" ==== Migrations Complete ==== ")
 }
 
 main()

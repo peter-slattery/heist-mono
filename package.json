@@ -8,7 +8,9 @@
     "dev:vite": "vite",
     "dev:netlify": "netlify dev",
     "run_migrations": "ts-node --skip-project ./infra/migrations/run.ts",
-    "build": "tsc && vite build",
+    "build:vite": "tsc && vite build",
+    "build:infra": "npm run run_migrations",
+    "build": "run-s build:**",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
