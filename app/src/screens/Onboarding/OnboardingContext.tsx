@@ -1,6 +1,6 @@
 import { PropsWithChildren, useContext, useState } from "react"
-import { createContextWithoutDefault } from "../../utils/createDefaultContext"
-import { DaydreamOptionKey } from "../../../common/types"
+import { createContextWithoutDefault } from "@app/utils/createDefaultContext"
+import { DaydreamOptionKey } from "@heist/common/types"
 import { useLocation, useNavigate } from "react-router-dom"
 
 type DaydreamOption = { name: string; key: DaydreamOptionKey }

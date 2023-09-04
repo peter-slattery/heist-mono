@@ -13,7 +13,7 @@
     "dev:vite": "npm run dev --workspace=app",
     "dev": "netlify dev",
     "run_migrations": "ts-node --skip-project ./backend/infra/migrations/run.ts",
-    "build:vite": "tsc && vite build",
+    "build:vite": "npm run build --workspace=app",
     "build:infra": "npm run run_migrations",
     "build": "run-s build:*",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
