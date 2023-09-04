@@ -1,5 +1,5 @@
 import AWS, { DynamoDB, AttributeValue } from "@aws-sdk/client-dynamodb"
-import { getEnv } from "./env"
+import { getEnv } from "../common/env"
 
 const {
   HEIST_AWS_ENDPOINT,

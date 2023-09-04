@@ -1,6 +1,6 @@
 import fs from "fs"
 import path from "path"
-import { getEnv, Env } from "../../env"
+import { getEnv, Env } from "../../../common/env"
 import { client as dynamoDbClient } from "../../dynamoDbClient"
 
 const initMigrations = async (env: Env) => {

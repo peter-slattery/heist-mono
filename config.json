@@ -1,0 +1,6 @@
+{
+  "HeistStack-development": {
+    "apiUrl": "http://localhost:8000",
+    "distributionDomain": "d1kyi0pe2mkry5.cloudfront.net"
+  }
+}

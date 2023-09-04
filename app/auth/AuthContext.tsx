@@ -24,7 +24,6 @@ export type AuthContext = {
   api: ReturnType<typeof makeApiClient>
   openLoginForm: typeof openLoginForm
   logout: () => Promise<void>
-  //fetch: (input: RequestInfo, init?: RequestInit) => ReturnType<typeof fetch>
 }
 
 const Context = createContextWithoutDefault<AuthContext>()
