@@ -28,6 +28,8 @@ export type AuthContext = {
 
 const Context = createContextWithoutDefault<AuthContext>()
 
+let authInitialized = false
+
 export const AuthContextProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState(true)
   const [user, setUser] = useState<HeistUser | null>(null)
@@ -53,7 +55,10 @@ export const AuthContextProvider = ({ children }: PropsWithChildren) => {
         closeLoginForm()
       })
     })
-    netlifyIdentity.init()
+    if (!authInitialized) {
+      netlifyIdentity.init()
+      authInitialized = true
+    }
   })
 
   useEffect(() => {
