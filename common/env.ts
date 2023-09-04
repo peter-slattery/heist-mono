@@ -22,5 +22,9 @@ export const getEnv = (): Env => {
   if (!configCalled) config()
   const result = process.env as Env
   if (!result.HEIST_PUBLIC_STAGE) result.HEIST_PUBLIC_STAGE = "dev"
+  if (!result.HEIST_S3_AWS_ACCESS_KEY_ID)
+    result.HEIST_S3_AWS_ACCESS_KEY_ID = result.HEIST_AWS_ACCESS_KEY_ID
+  if (!result.HEIST_S3_AWS_SECRET_ACCESS_KEY)
+    result.HEIST_S3_AWS_SECRET_ACCESS_KEY = result.HEIST_AWS_SECRET_ACCESS_KEY
   return result
 }
