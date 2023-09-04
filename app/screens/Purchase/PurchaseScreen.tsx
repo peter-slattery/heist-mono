@@ -3,6 +3,7 @@ import { useEffect } from "react"
 import { Layout } from "../Layout"
 import { Body, BodyBold } from "@heist/app/designSystem/Typography"
 import { createUseStyles, useTheme } from "@heist/app/theme"
+import netlifyIdentity from "netlify-identity-widget"
 
 const useStyles = createUseStyles((theme) => ({
   layout: {
@@ -45,13 +46,16 @@ export const PurchaseScreen = () => {
   const theme = useTheme()
   const styles = useStyles({ theme })
 
-  const { user } = useAuth()
-
+  const { user, api, openLoginForm } = useAuth()
   useEffect(() => {
     if (!user) {
-      // tODO: Nav to a login page that redirects back here when done
+      openLoginForm("login")
     }
   }, [user])
+
+  const onInvest = () => {
+    /* TODO */
+  }
 
   return (
     <Layout>
