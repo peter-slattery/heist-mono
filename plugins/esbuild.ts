@@ -21,9 +21,10 @@ esbuild
       HEIST_PLUGIN_ENDPOINT: `"${env.HEIST_PLUGIN_ENDPOINT}"`,
     },
   })
+  .then(() => {
+    fs.copyFileSync(
+      path.resolve(__dirname, "chrome/manifest.json"),
+      path.resolve(__dirname, "build/chrome/manifest.json")
+    )
+  })
   .catch(() => process.exit(1))
-
-fs.copyFileSync(
-  path.resolve(__dirname, "chrome/manifest.json"),
-  path.resolve(__dirname, "build/chrome/manifest.json")
-)
