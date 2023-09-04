@@ -15,6 +15,7 @@
     "run_migrations": "ts-node --skip-project ./backend/infra/migrations/run.ts",
     "build:vite": "npm run build --workspace=app",
     "build:infra": "npm run run_migrations",
+    "build:plugins:deploy": "npm run deploy --workspace=plugins",
     "build": "run-s build:*",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"

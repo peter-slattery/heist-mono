@@ -4,8 +4,6 @@ import {
   CreateBucketCommand,
   PutPublicAccessBlockCommand,
   PutBucketPolicyCommand,
-  BucketAlreadyOwnedByYou,
-  BucketAlreadyExists,
 } from "@aws-sdk/client-s3"
 import { getEnv } from "../../../common/env"
 
