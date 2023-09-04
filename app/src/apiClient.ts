@@ -15,6 +15,21 @@ export const makeApiClient = (jwt: string | null) => {
       })
       return resp.json()
     },
+    userPurchasesGet: async (_req) => {
+      const resp = await authenticatedFetch(jwt, "/api/userPurchasesGet", {
+        method: "POST",
+        body: JSON.stringify(_req),
+      })
+      console.log("Resp", resp)
+      return resp.json()
+    },
+    userPurchaseCreate: async (_req) => {
+      const resp = await authenticatedFetch(jwt, "/api/userPurchaseCreate", {
+        method: "POST",
+        body: JSON.stringify(_req),
+      })
+      return resp.json()
+    },
   }
   return result
 }

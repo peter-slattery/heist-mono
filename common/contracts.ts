@@ -1,6 +1,6 @@
 import { type HandlerContext, type HandlerEvent } from "@netlify/functions"
 
-import { HeistUser, UserProfile } from "./types"
+import { HeistUser, Purchase, UserProfile } from "./types"
 
 export type AuthenticatedHandlerContext = Omit<
   HandlerContext,
@@ -43,6 +43,31 @@ export type UserProfileCreateHandler = ApiAuthenticatedHandler<
   UserProfileGetResponse
 >
 
+export type UserPurchaseCreateRequest = {
+  name: string
+  price: string
+  imageUrl: string
+  productUrl: string
+}
+export type UserPurchaseCreateResponse = {
+  purchaseId: string
+}
+export type UserPurchaseCreateHandler = ApiAuthenticatedHandler<
+  UserPurchaseCreateRequest,
+  UserPurchaseCreateResponse
+>
+
+export type UserPurchasesGetRequest = {
+  purchaseId?: string
+}
+export type UserPurchasesGetResponse = {
+  purchases: Purchase[]
+}
+export type UserPurchasesGetHandler = ApiAuthenticatedHandler<
+  UserPurchasesGetRequest,
+  UserPurchasesGetResponse
+>
+
 //////////////// API ////////////////
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -53,4 +78,7 @@ type ApiClientHandler<THandler extends ApiHandler<any, any, any>> = (
 export type ApiClient = {
   userProfileGet: ApiClientHandler<UserProfileGetHandler>
   userProfileCreate: ApiClientHandler<UserProfileCreateHandler>
+
+  userPurchaseCreate: ApiClientHandler<UserPurchaseCreateHandler>
+  userPurchasesGet: ApiClientHandler<UserPurchasesGetHandler>
 }

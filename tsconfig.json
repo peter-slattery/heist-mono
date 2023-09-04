@@ -23,9 +23,9 @@
 
     "baseUrl": "./",
     "paths": {
-      "@heist/*": ["./*"]
+      "@heist/*": ["./*"],
+      "@app/*": ["./app/src/*"]
     }
   },
-  "include": ["app", "backend", "common", "plugin"],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "include": ["app/src", "backend", "common", "plugin"],
 }

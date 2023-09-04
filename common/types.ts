@@ -20,3 +20,12 @@ export interface HeistUser extends User {
     userId?: string
   }
 }
+
+export type Purchase = {
+  userId: string
+  purchaseId: string
+  name: string
+  price: string
+  imageUrl: string
+  productUrl: string
+}

@@ -52,7 +52,8 @@ export const translateObjectToAttributeValueRecord = (
   return result
 }
 
-const getTableNameForEnv = (tableName: string): string => {
+const getTableNameForEnv = (tableName: string | undefined): string => {
+  if (!tableName) throw new Error("No table name provided")
   return `heist-${HEIST_STAGE}-${tableName}`
 }
 
@@ -71,6 +72,7 @@ export const client = {
       TableName: getTableNameForEnv(TableName),
       Item: translateObjectToAttributeValueRecord(Item),
     }
+    console.log(input)
     return dynamoDb.putItem(input)
   },
   getItem: ({ TableName, Key }: GetItemCommandInput) => {
@@ -79,6 +81,10 @@ export const client = {
       Key: translateObjectToAttributeValueRecord(Key),
     }
     return dynamoDb.getItem(input)
+  },
+  query: (input: AWS.QueryCommandInput) => {
+    input.TableName = getTableNameForEnv(input.TableName)
+    return dynamoDb.query(input)
   },
 } as const
 

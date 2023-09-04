@@ -52,3 +52,14 @@ export const makeAuthenticatedHandler = <
     }
   }
 }
+
+export const getUserInfo = (
+  context: AuthenticatedHandlerContext
+): { userId: string; full_name?: string } => {
+  const user = context.clientContext.user
+  if (!user.user_metadata.userId) throw new Error("No userId")
+  return {
+    userId: user.user_metadata.userId,
+    full_name: user.user_metadata.full_name,
+  }
+}

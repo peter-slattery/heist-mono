@@ -1,10 +1,9 @@
-import { useAuth } from "@heist/app/auth/AuthContext"
+import { useAuth } from "@heist/app/src/auth/AuthContext"
 import { useEffect } from "react"
 import { Layout } from "../Layout"
-import { Body, BodyBold } from "@heist/app/designSystem/Typography"
-import { createUseStyles, useTheme } from "@heist/app/theme"
-import netlifyIdentity from "netlify-identity-widget"
-import { useLocation, useParams } from "react-router-dom"
+import { Body, BodyBold } from "../../designSystem/Typography"
+import { createUseStyles, useTheme } from "../../theme"
+import { useLocation, useNavigate } from "react-router-dom"
 import { PluginInvestData } from "@heist/common/pluginContract"
 
 const useStyles = createUseStyles((theme) => ({
@@ -47,6 +46,7 @@ export const PurchaseScreen = () => {
   const theme = useTheme()
   const styles = useStyles({ theme })
 
+  const navigate = useNavigate()
   const location = useLocation()
   const params = Object.fromEntries(
     new URLSearchParams(location.search)
@@ -60,7 +60,10 @@ export const PurchaseScreen = () => {
   }, [user])
 
   const onInvest = () => {
-    /* TODO */
+    api.userPurchaseCreate({
+      ...params,
+    })
+    navigate("/home")
   }
 
   return (
@@ -77,7 +80,7 @@ export const PurchaseScreen = () => {
         </div>
         <hr className={styles.hr} />
         <div className={styles.gridRow}>
-          <img className={styles.image} src={params.image} />
+          <img className={styles.image} src={params.imageUrl} />
           <div className={styles.productInfo}>
             <Body>
               <p>{params.name}</p>
@@ -86,7 +89,9 @@ export const PurchaseScreen = () => {
           <div className={styles.rightJustify}>
             <BodyBold>{params.price}</BodyBold>
             <br />
-            <button className={styles.investButton}>Invest</button>
+            <button className={styles.investButton} onClick={onInvest}>
+              Invest
+            </button>
           </div>
         </div>
       </div>

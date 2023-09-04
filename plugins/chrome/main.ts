@@ -118,8 +118,8 @@ function heist_on_invest(event: MouseEvent) {
   const data: PluginInvestData = {
     price: prices[0].innerText,
     name: names[0],
-    image: images[0],
-    origin: window.location.href,
+    imageUrl: images[0],
+    productUrl: window.location.href,
   }
   const queryString = new URLSearchParams(data)
   open(`${HEIST_PLUGIN_ENDPOINT}?${queryString.toString()}`, "_blank")

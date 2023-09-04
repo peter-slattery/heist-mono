@@ -1,7 +1,7 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom"
 import { createUseStyles, useTheme } from "../../theme"
 import { OnboardingProvider } from "./OnboardingContext"
-import { InvestmentsDisplay } from "@heist/app/components/InvestmentsDisplay"
+import { InvestmentsDisplay } from "@app/components/InvestmentsDisplay"
 
 const useStyles = createUseStyles((theme) => ({
   layout: {
