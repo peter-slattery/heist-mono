@@ -1,6 +1,6 @@
 import fs from "fs"
 import path from "path"
-import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
+import { PutObjectCommand } from "@aws-sdk/client-s3"
 import { config, getEnv } from "../common/env"
 import { makeS3Client } from "../backend/s3Client"
 import JSZip from "jszip"
