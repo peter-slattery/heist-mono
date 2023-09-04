@@ -60,10 +60,13 @@ export const PurchaseScreen = () => {
   }, [user])
 
   const onInvest = () => {
-    api.userPurchaseCreate({
-      ...params,
-    })
-    navigate("/home")
+    api
+      .userPurchaseCreate({
+        ...params,
+      })
+      .then(() => {
+        navigate("/home")
+      })
   }
 
   return (
