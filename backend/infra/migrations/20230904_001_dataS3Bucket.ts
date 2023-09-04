@@ -62,7 +62,7 @@ export const up = async (
             Effect: "Allow",
             Principal: "*",
             Action: "s3:GetObject",
-            Resource: "arn:aws:s3:::heist-local-storage/*",
+            Resource: `arn:aws:s3:::${Bucket}/*`,
           },
         ],
       }),
