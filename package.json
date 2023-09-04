@@ -7,7 +7,7 @@
     "db:down": "docker compose -f backend/infra/local-dynamodb.compose.yml down",
     "db:up": "docker compose -f backend/infra/local-dynamodb.compose.yml up",
     "dev:vite": "vite",
-    "dev:netlify": "netlify dev",
+    "dev": "netlify dev",
     "run_migrations": "ts-node --skip-project ./backend/infra/migrations/run.ts",
     "build:vite": "tsc && vite build",
     "build:infra": "npm run run_migrations",

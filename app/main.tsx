@@ -12,6 +12,7 @@ import netlifyIdentity from "netlify-identity-widget"
 import { OnboardingLayout } from "./screens/Onboarding/OnboardingLayout.tsx"
 import { OnboardingDaydreaming } from "./screens/Onboarding/OnboardingDaydreaming.tsx"
 import { OnboardingChooseADate } from "./screens/Onboarding/OnboardingChooseADate.tsx"
+import { PurchaseScreen } from "./screens/Purchase/PurchaseScreen.tsx"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ;(window as any).netlifyIdentity = netlifyIdentity
@@ -42,6 +43,7 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
               <Route path="/onboarding/1" element={<OnboardingDaydreaming />} />
               <Route path="/onboarding/2" element={<OnboardingChooseADate />} />
             </Route>
+            <Route path="/invest" element={<PurchaseScreen />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
