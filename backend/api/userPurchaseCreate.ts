@@ -19,7 +19,8 @@ export const handler = makeAuthenticatedHandler<UserPurchaseCreateHandler>(
       imageUrl: req.imageUrl,
       productUrl: req.productUrl,
     }
-    tableUserPurchases.create(purchase)
+    const r = await tableUserPurchases.create(purchase)
+    console.log("Complete", r)
 
     return {
       purchaseId: purchase.purchaseId,
