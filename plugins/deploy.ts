@@ -2,18 +2,13 @@ import fs from "fs"
 import path from "path"
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3"
 import { config, getEnv } from "../common/env"
+import { makeS3Client } from "../backend/s3Client"
 import JSZip from "jszip"
 
 config({ path: "../.env" })
 const main = async () => {
   const env = getEnv()
-  const s3Client = new S3Client({
-    region: env.HEIST_AWS_REGION,
-    credentials: {
-      accessKeyId: env.HEIST_S3_AWS_ACCESS_KEY_ID,
-      secretAccessKey: env.HEIST_S3_AWS_SECRET_ACCESS_KEY,
-    },
-  })
+  const s3Client = makeS3Client(env)
 
   console.log("Zipping chrome plugin...")
   const chromePluginPath = path.resolve(__dirname, "build/chrome")

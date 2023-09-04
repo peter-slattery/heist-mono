@@ -1,11 +1,11 @@
 import { HeistDynamoDBClient } from "../../dynamoDbClient"
 import {
-  S3Client,
   CreateBucketCommand,
   PutPublicAccessBlockCommand,
   PutBucketPolicyCommand,
 } from "@aws-sdk/client-s3"
 import { getEnv } from "../../../common/env"
+import { makeS3Client } from "@heist/backend/s3Client"
 
 const env = getEnv()
 const stage = env.HEIST_PUBLIC_STAGE
@@ -13,14 +13,7 @@ const stage = env.HEIST_PUBLIC_STAGE
 export const up = async (
   _dynamoDbClient: HeistDynamoDBClient
 ): Promise<boolean> => {
-  const s3Client = new S3Client({
-    region: env.HEIST_AWS_REGION,
-    credentials: {
-      accessKeyId: env.HEIST_S3_AWS_ACCESS_KEY_ID,
-      secretAccessKey: env.HEIST_S3_AWS_SECRET_ACCESS_KEY,
-    },
-  })
-
+  const s3Client = makeS3Client(env)
   const Bucket = `heist-${stage}-storage`
   try {
     const command = new CreateBucketCommand({
