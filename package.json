@@ -2,6 +2,9 @@
   "name": "heist-mono",
   "private": true,
   "version": "0.0.0",
+  "workspaces": [
+    "plugins"
+  ],
   "scripts": {
     "test": "jest",
     "db:down": "docker compose -f backend/infra/local-dynamodb.compose.yml down",

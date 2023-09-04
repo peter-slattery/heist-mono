@@ -9,6 +9,8 @@
     [] - Common Footer
 [x] - Authenticated Home
 
+[] - formatting data from vendor pages for purchase page
+
 ## SEO
 - add headers to index.html
 

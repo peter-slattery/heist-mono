@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "Heist",
+  "version": "0.0",
+  "description": "Add Heist button to pages with an Add To Cart button",
+  "icons": {},
+  "content_scripts": [
+    {
+      "js": ["content.js"],
+      "matches": ["http://*/*", "https://*/*"]
+    }
+  ],
+  "web_accessible_resources": [{
+    "resources": ["main.js"],
+    "matches": ["<all_urls>"]
+  }]
+}

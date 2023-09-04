@@ -26,6 +26,6 @@
       "@heist/*": ["./*"]
     }
   },
-  "include": ["app", "backend", "common"],
+  "include": ["app", "backend", "common", "plugin"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

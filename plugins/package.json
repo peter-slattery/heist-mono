@@ -1,0 +1,13 @@
+{
+  "name": "heist-mono",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "build": "NODE_ENV=\"production\" ts-node esbuild.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^20.5.9",
+    "esbuild": "^0.19.2",
+    "ts-node": "^10.9.1"
+  }
+}

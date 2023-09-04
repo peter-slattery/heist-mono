@@ -4,6 +4,8 @@ import { Layout } from "../Layout"
 import { Body, BodyBold } from "@heist/app/designSystem/Typography"
 import { createUseStyles, useTheme } from "@heist/app/theme"
 import netlifyIdentity from "netlify-identity-widget"
+import { useLocation, useParams } from "react-router-dom"
+import { PluginInvestData } from "@heist/common/pluginContract"
 
 const useStyles = createUseStyles((theme) => ({
   layout: {
@@ -25,7 +27,6 @@ const useStyles = createUseStyles((theme) => ({
   },
   image: {
     width: "100%",
-    paddingTop: "150%",
     backgroundColor: theme.colors.gray300,
   },
   productInfo: {},
@@ -45,6 +46,11 @@ const useStyles = createUseStyles((theme) => ({
 export const PurchaseScreen = () => {
   const theme = useTheme()
   const styles = useStyles({ theme })
+
+  const location = useLocation()
+  const params = Object.fromEntries(
+    new URLSearchParams(location.search)
+  ) as PluginInvestData
 
   const { user, api, openLoginForm } = useAuth()
   useEffect(() => {
@@ -71,20 +77,14 @@ export const PurchaseScreen = () => {
         </div>
         <hr className={styles.hr} />
         <div className={styles.gridRow}>
-          <div className={styles.image}></div>
+          <img className={styles.image} src={params.image} />
           <div className={styles.productInfo}>
             <Body>
-              <p>Emit Floor Lamp</p>
-              <p>
-                <BodyBold>Style:</BodyBold> #63501183
-              </p>
-              <p>
-                <BodyBold>Color:</BodyBold> Ivory
-              </p>
+              <p>{params.name}</p>
             </Body>
           </div>
           <div className={styles.rightJustify}>
-            <BodyBold>$499.00</BodyBold>
+            <BodyBold>{params.price}</BodyBold>
             <br />
             <button className={styles.investButton}>Invest</button>
           </div>
