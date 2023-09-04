@@ -14,7 +14,7 @@ export const makeApiClient = (jwt: string | null) => {
     userProfileCreate: async (_req) => {
       const resp = await authenticatedFetch(
         jwt,
-        `${API_ROOT}/userProfilesCreate`,
+        `${API_ROOT}/userProfileCreate`,
         {
           method: "POST",
         }
