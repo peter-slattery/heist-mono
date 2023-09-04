@@ -9,6 +9,8 @@ export default defineConfig({
   build: {
     outDir: "../../dist",
   },
+  envDir: path.resolve(__dirname, "../"),
+  envPrefix: "HEIST_PUBLIC_",
   resolve: {
     alias: {
       "@heist": path.resolve(__dirname, "../"),

@@ -6,7 +6,7 @@ const {
   HEIST_AWS_REGION,
   HEIST_AWS_ACCESS_KEY_ID,
   HEIST_AWS_SECRET_ACCESS_KEY,
-  HEIST_STAGE,
+  HEIST_PUBLIC_STAGE,
 } = getEnv()
 
 export const dynamoDb = new DynamoDB({
@@ -54,7 +54,7 @@ export const translateObjectToAttributeValueRecord = (
 
 const getTableNameForEnv = (tableName: string | undefined): string => {
   if (!tableName) throw new Error("No table name provided")
-  return `heist-${HEIST_STAGE}-${tableName}`
+  return `heist-${HEIST_PUBLIC_STAGE}-${tableName}`
 }
 
 export const client = {

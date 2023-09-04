@@ -25,7 +25,9 @@ const initMigrations = async (env: Env) => {
       },
     })
   } catch (e) {
-    console.log(`Migration Table already created for stage: ${env.HEIST_STAGE}`)
+    console.log(
+      `Migration Table already created for stage: ${env.HEIST_PUBLIC_STAGE}`
+    )
   }
 }
 

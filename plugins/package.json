@@ -3,11 +3,14 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "build": "NODE_ENV=\"production\" ts-node esbuild.ts"
+    "build": "NODE_ENV=\"production\" ts-node esbuild.ts",
+    "deploy": "npm run build && ts-node deploy.ts"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.405.0",
     "@types/node": "^20.5.9",
     "esbuild": "^0.19.2",
+    "jszip": "^3.10.1",
     "ts-node": "^10.9.1"
   }
 }
