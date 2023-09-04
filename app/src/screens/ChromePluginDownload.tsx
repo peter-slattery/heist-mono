@@ -1,8 +1,8 @@
-import { Body, BodyBold, H1, H3 } from "../designSystem/Typography"
+import { Body, H1 } from "../designSystem/Typography"
 import { createUseStyles, useTheme } from "../theme"
 import { Layout } from "./Layout"
 
-const useStyles = createUseStyles((theme) => ({
+const useStyles = createUseStyles((_theme) => ({
   layout: {
     padding: "50px 50px",
     display: "flex",

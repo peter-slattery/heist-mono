@@ -32,6 +32,7 @@ export const up = async (
     const result = await s3Client.send(command)
     console.log("Bucket created", result)
   } catch (e) {
+    console.log(e)
     return false
   }
 
@@ -47,6 +48,7 @@ export const up = async (
     })
     await s3Client.send(command)
   } catch (e) {
+    console.log(e)
     return false
   }
 
@@ -65,10 +67,11 @@ export const up = async (
         ],
       }),
       // Apply the preceding policy to this bucket.
-      Bucket: "BUCKET-NAME",
+      Bucket,
     })
     await s3Client.send(command)
   } catch (e) {
+    console.log(e)
     return false
   }
 
