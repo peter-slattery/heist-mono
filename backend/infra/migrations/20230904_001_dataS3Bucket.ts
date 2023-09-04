@@ -4,6 +4,8 @@ import {
   CreateBucketCommand,
   PutPublicAccessBlockCommand,
   PutBucketPolicyCommand,
+  BucketAlreadyOwnedByYou,
+  BucketAlreadyExists,
 } from "@aws-sdk/client-s3"
 import { getEnv } from "../../../common/env"
 
@@ -31,9 +33,16 @@ export const up = async (
     })
     const result = await s3Client.send(command)
     console.log("Bucket created", result)
-  } catch (e) {
-    console.log(e)
-    return false
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (e: any) {
+    if (
+      !(
+        e.Code === "BucketAlreadyOwnedByYou" || e.Code === "BucketAlreadyExists"
+      )
+    ) {
+      console.log(e)
+      return false
+    }
   }
 
   try {
