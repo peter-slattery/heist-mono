@@ -5,17 +5,19 @@ declare const HEIST_PLUGIN_ENDPOINT: string
 
 // Inject Heist Styles into Page
 const styles: string = `
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+
   .heist_add_to_cart {
     cursor: pointer;
     width: 100%;
     display: flex;
     background: #FA533A;
-    color: #f7f7f7;
+    color: #FFC5BC;
     text-align: center;
-    font-family: "Impact";
-    font-weight: 800;
-    font-size: 18pt;
-    line-height: 100%;
+    font-family: "Archivo Black";
+    font-weight: 400;
+    font-size: 18px;
+    line-height: normal;
     border-radius: 4px;
     margin-top: 4px;
   }
@@ -132,11 +134,8 @@ function populate_from_spec(spec: Vendor_Spec) {
     if (!button) continue
 
     const html = `
-<div class="heist_h">
-  H
-</div>
 <div class="heist_cta">
-  INVEST
+  HEIST
 </div>
 `
     const insertion = document.createElement("div")
