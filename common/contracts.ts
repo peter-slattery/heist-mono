@@ -2,6 +2,15 @@ import { type HandlerContext, type HandlerEvent } from "@netlify/functions"
 
 import { HeistUser, Purchase, UserProfile } from "./types"
 
+export type Vendor_Spec = {
+  vendor: string
+  url: string
+  placement: string[]
+  price_id_selectors: string[]
+  image_selectors: string[]
+  name_selectors: string[]
+}
+
 export type AuthenticatedHandlerContext = Omit<
   HandlerContext,
   "clientContext"

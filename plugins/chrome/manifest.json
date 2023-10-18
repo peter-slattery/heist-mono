@@ -10,8 +10,13 @@
       "matches": ["http://*/*", "https://*/*"]
     }
   ],
+  "host_permissions": ["http://localhost:8888/.netlify/functions/pluginDataGet/"],
   "web_accessible_resources": [{
     "resources": ["main.js"],
     "matches": ["<all_urls>"]
-  }]
+  }],
+  "permissions": ["activeTab", "http://localhost:8888/*"],
+  "background": {
+    "service_worker": "background.js"
+  }
 }

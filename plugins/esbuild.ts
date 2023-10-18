@@ -8,9 +8,15 @@ config({
 })
 const env = getEnv()
 
+console.log("Setting plugin endpoint:", env.HEIST_PLUGIN_ENDPOINT)
+
 esbuild
   .build({
-    entryPoints: ["./chrome/main.ts", "./chrome/content.ts"],
+    entryPoints: [
+      "./chrome/main.ts",
+      "./chrome/content.ts",
+      "./chrome/background.ts",
+    ],
     bundle: true,
     minify: true,
     sourcemap: process.env.NODE_ENV !== "production",

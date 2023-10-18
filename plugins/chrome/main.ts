@@ -1,7 +1,26 @@
+import { Vendor_Spec } from "@heist/common/contracts"
 import { type PluginInvestData } from "@heist/common/pluginContract"
 import { log } from "../common/log"
 
 declare const HEIST_PLUGIN_ENDPOINT: string
+
+let vendor_specs: Vendor_Spec[]
+let vendor_spec: Vendor_Spec | null = null
+document.addEventListener("receivedVendorData", (event) => {
+  vendor_specs = (event as CustomEvent).detail as Vendor_Spec[]
+
+  const vendor_specs_matching = vendor_specs.filter((vendor) => {
+    return window.location.href.includes(vendor.url)
+  })
+
+  vendor_spec =
+    vendor_specs_matching.length > 0
+      ? vendor_specs_matching[0]
+      : vendor_specs[0]
+
+  log("Using vendor spec", vendor_spec)
+  setTimeout(() => check_and_add_heist_button(vendor_spec!), 500)
+})
 
 // Inject Heist Styles into Page
 const styles: string = `
@@ -39,16 +58,7 @@ const stylesheet: HTMLStyleElement = document.createElement("style")
 stylesheet.innerHTML = styles
 document.head.appendChild(stylesheet)
 
-// Inject Heist Buttons into Page
-type Vendor_Spec = {
-  vendor: string
-  url: string
-  placement: string[]
-  price_id_selectors: string[]
-  image_selectors: string[]
-  name_selectors: string[]
-}
-
+/*
 const vendor_specs: Vendor_Spec[] = [
   {
     vendor: "Amazon",
@@ -138,8 +148,10 @@ const vendor_specs: Vendor_Spec[] = [
 const vendor_specs_matching = vendor_specs.filter((vendor) => {
   return window.location.href.includes(vendor.url)
 })
+
 const vendor_spec: Vendor_Spec =
   vendor_specs_matching.length > 0 ? vendor_specs_matching[0] : vendor_specs[0]
+*/
 
 function queryAllSelectors<T extends HTMLElement>(
   selectorsArray: string[]
@@ -155,6 +167,8 @@ function queryAllSelectors<T extends HTMLElement>(
 function heist_on_invest(event: MouseEvent) {
   event.preventDefault()
   event.stopPropagation()
+
+  if (!vendor_spec) return
 
   const prices = queryAllSelectors(vendor_spec.price_id_selectors)
   const names = queryAllSelectors(vendor_spec.name_selectors).map(
@@ -172,7 +186,7 @@ function heist_on_invest(event: MouseEvent) {
     productUrl: window.location.href,
   }
   const queryString = new URLSearchParams(data)
-  open(`${HEIST_PLUGIN_ENDPOINT}?${queryString.toString()}`, "_blank")
+  open(`${HEIST_PLUGIN_ENDPOINT}/invest?${queryString.toString()}`, "_blank")
 }
 
 function populate_from_spec(spec: Vendor_Spec) {
@@ -201,7 +215,7 @@ function populate_from_spec(spec: Vendor_Spec) {
 
 let checks_count = 0
 const CHECKS_MAX = 5
-function check_and_add_heist_button() {
+function check_and_add_heist_button(vendor_spec: Vendor_Spec) {
   checks_count += 1
   const button = document.querySelector(".heist_add_to_cart")
   if (!button) {
@@ -212,6 +226,3 @@ function check_and_add_heist_button() {
     setTimeout(check_and_add_heist_button, 3000)
   }
 }
-
-log("Using vendor spec", vendor_spec)
-setTimeout(check_and_add_heist_button, 500)
