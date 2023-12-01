@@ -41,8 +41,27 @@ export const vendor_specs: Vendor_Spec[] = [
   {
     vendor: "West Elm",
     url: "westelm.com",
+    information_accessors: [
+      {
+        id: "basic",
+        placement: ".add-to-cart-container > div > .atc-container",
+        price: {
+          type: "textContent",
+          selector: ".purchasing-container .product-price .amount",
+        },
+        image: {
+          type: "getAttribute",
+          selector: "#hero-0",
+          attribute: "src",
+        },
+        name: {
+          type: "textContent",
+          selector: ".product-info .heading-title-pip",
+        },
+      },
+    ],
     placement: [".add-to-cart-container > div > .atc-container"],
-    price_id_selectors: [".purchasing-container .product-price .amount"],
+    price_id_selectors: [],
     image_selectors: ["#hero-0"],
     name_selectors: [".product-info .heading-title-pip"],
   },
