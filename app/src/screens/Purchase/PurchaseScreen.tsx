@@ -9,10 +9,19 @@ import { Input } from "../../components/Input"
 import { useUserPurchases } from "../../hooks/useUserPurchases"
 import { InvestmentsDisplay } from "../../components/InvestmentsDisplay"
 import { HeistButton } from "../../designSystem/HeistButton"
+import { InvestmentsMoneyRow } from "../../components/InvestmentsMoneyRow"
 
 const useStyles = createUseStyles((theme) => ({
   layout: {
     padding: "30px 60px",
+  },
+  outer: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 32,
+    paddingTop: 42,
+    marginLeft: 54,
+    marginRight: 54,
   },
   popupBackground: {
     position: "fixed",
@@ -139,7 +148,11 @@ export const PurchaseScreen = () => {
 
   return (
     <Layout>
-      <InvestmentsDisplay purchases={purchases} />
+      <div className={styles.outer}>
+        <InvestmentsMoneyRow total={total} />
+        <InvestmentsDisplay purchases={purchases} />
+      </div>
+
       <div className={styles.popupBackground}>
         <div className={styles.popupForeground}>
           <div className={styles.popupColumns}>

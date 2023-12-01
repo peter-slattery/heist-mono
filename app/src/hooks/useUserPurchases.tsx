@@ -1,7 +1,6 @@
 import { Purchase } from "@heist/common/types"
 import { useEffect, useState } from "react"
 import { useAuth } from "../auth/AuthContext"
-import { useEffectOnMount } from "../utils/useEffects"
 
 const compoundInterest = (p: number, rate: number, years: number) => {
   return p * Math.pow(Math.E, rate * years)
