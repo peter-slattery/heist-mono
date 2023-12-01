@@ -1,10 +1,11 @@
 import { useAuth } from "@heist/app/src/auth/AuthContext"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Layout } from "../Layout"
 import { Body, BodyBold } from "../../designSystem/Typography"
 import { createUseStyles, useTheme } from "../../theme"
 import { useLocation, useNavigate } from "react-router-dom"
 import { PluginInvestData } from "@heist/common/pluginContract"
+import { Input } from "../../components/Input"
 
 const useStyles = createUseStyles((theme) => ({
   layout: {
@@ -45,6 +46,7 @@ const useStyles = createUseStyles((theme) => ({
 export const PurchaseScreen = () => {
   const theme = useTheme()
   const styles = useStyles({ theme })
+  const [loading, setLoading] = useState<boolean>(false)
 
   const navigate = useNavigate()
   const location = useLocation()
@@ -52,19 +54,36 @@ export const PurchaseScreen = () => {
     new URLSearchParams(location.search)
   ) as PluginInvestData
 
+  const [price, setPrice] = useState<number>(0.0)
+  const [imageUrl, setImageUrl] = useState<string>("")
+  const [productName, setProductName] = useState<string>("")
+
   const { user, api, openLoginForm } = useAuth()
+
   useEffect(() => {
+    setPrice(parseFloat(params.price))
+    setImageUrl(params.imageUrl)
+    setProductName(params.name)
+  }, [])
+
+  useEffect(() => {
+    console.log(user)
     if (!user) {
       openLoginForm("login")
     }
   }, [user])
 
   const onInvest = () => {
+    setLoading(true)
     api
       .userPurchaseCreate({
-        ...params,
+        name: productName,
+        price: price.toString(),
+        imageUrl,
+        productUrl: params.productUrl,
       })
       .then(() => {
+        setLoading(false)
         navigate("/home")
       })
   }
@@ -83,18 +102,18 @@ export const PurchaseScreen = () => {
         </div>
         <hr className={styles.hr} />
         <div className={styles.gridRow}>
-          <img className={styles.image} src={params.imageUrl} />
+          <img className={styles.image} src={imageUrl} />
           <div className={styles.productInfo}>
-            <Body>
-              <p>{params.name}</p>
-            </Body>
+            <Input value={productName} setValue={setProductName} />
           </div>
           <div className={styles.rightJustify}>
-            <BodyBold>{params.price}</BodyBold>
+            <Input value={price} setValue={setPrice} right step={"0.01"} />
             <br />
-            <button className={styles.investButton} onClick={onInvest}>
-              Invest
-            </button>
+            {!loading && (
+              <button className={styles.investButton} onClick={onInvest}>
+                Invest
+              </button>
+            )}
           </div>
         </div>
       </div>
