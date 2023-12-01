@@ -186,7 +186,11 @@ function heist_on_invest(event: MouseEvent) {
     productUrl: window.location.href,
   }
   const queryString = new URLSearchParams(data)
-  open(`${HEIST_PLUGIN_ENDPOINT}/invest?${queryString.toString()}`, "_blank")
+  const base =
+    HEIST_PLUGIN_ENDPOINT[HEIST_PLUGIN_ENDPOINT.length - 1] === "/"
+      ? HEIST_PLUGIN_ENDPOINT
+      : HEIST_PLUGIN_ENDPOINT + "/"
+  open(`${base}invest?${queryString.toString()}`, "_blank")
 }
 
 function populate_from_spec(spec: Vendor_Spec) {
