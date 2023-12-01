@@ -7,6 +7,7 @@ import { useAuth } from "@app/auth/AuthContext"
 import { Purchase } from "@heist/common/types"
 import { useState } from "react"
 import classNames from "classnames"
+import { useUserPurchases } from "../../hooks/useUserPurchases"
 
 const useStyles = createUseStyles((theme) => ({
   outer: {
@@ -36,6 +37,7 @@ const useStyles = createUseStyles((theme) => ({
     lineHeight: "normal",
   },
   horizontalLine: {
+    margin: [0, 10, 0, 10],
     flexGrow: 1,
     height: 0,
     borderBottom: `1px solid ${theme.colors.black}`,
@@ -46,33 +48,11 @@ const useStyles = createUseStyles((theme) => ({
   },
 }))
 
-const compoundInterest = (p: number, rate: number, years: number) => {
-  return p * Math.pow(Math.E, rate * years)
-}
-
 export const UserHomeScreen = () => {
   const theme = useTheme()
   const styles = useStyles({ theme })
 
-  const [purchases, setPurchases] = useState<Purchase[]>([])
-  const [total, setTotal] = useState<{
-    today: number
-    atGoal: number
-  }>({ today: 0, atGoal: 0 })
-
-  const { api } = useAuth()
-  useEffectOnMount(() => {
-    api.userPurchasesGet({}).then((res) => {
-      setPurchases(res.purchases)
-      const total = res.purchases.reduce((total, purchase) => {
-        return total + parseFloat(purchase.price)
-      }, 0)
-      setTotal({
-        today: total,
-        atGoal: compoundInterest(total, 0.1, 4),
-      })
-    })
-  })
+  const { purchases, total } = useUserPurchases()
 
   return (
     <Layout>

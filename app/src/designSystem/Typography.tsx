@@ -4,7 +4,7 @@ import { createUseStyles, useTheme } from "../theme"
 const useStyles = createUseStyles((theme) => ({
   h1: {
     fontFamily: theme.fonts.archivoBlack,
-    fontSize: "36px",
+    fontSize: "20px",
     fontStyle: "normal",
     fontWeight: "400",
     lineHeight: "normal",
@@ -30,6 +30,7 @@ const useStyles = createUseStyles((theme) => ({
     lineHeight: "normal",
   },
   bodyBold: {
+    fontFamily: theme.fonts.archivoBlack,
     fontSize: 18,
     fontStyle: "normal",
     fontWeight: 700,
