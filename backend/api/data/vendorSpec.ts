@@ -12,8 +12,29 @@ export const vendor_specs: Vendor_Spec[] = [
   {
     vendor: "Amazon",
     url: "amazon.com",
-    placement: [".add-to-cart-data", "#partialStateBuybox"],
-    price_id_selectors: [".a-price .a-offscreen", '[data-a-color="price"]'],
+    information_accessors: [
+      {
+        id: "checkout",
+        placement: '[data-name="Active Items"] .sc-list-item',
+        price: {
+          type: "getAttribute",
+          selector: '[data-name="Active Items"] .sc-list-item',
+          attribute: "data-price",
+        },
+        image: {
+          type: "getAttribute",
+          selector: '[data-name="Active Items"] img.sc-product-image',
+          attribute: "src",
+        },
+        name: {
+          type: "textContent",
+          selector:
+            '[data-name="Active Items"] .sc-product-title .a-truncate-full',
+        },
+      },
+    ],
+    placement: ['[data-name="Active Items"] .sc-list-item'],
+    price_id_selectors: ['[data-name="Active Items"] '],
     image_selectors: ['[data-a-image-name="landingImage"]'],
     name_selectors: ["#productTitle"],
   },

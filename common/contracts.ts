@@ -2,9 +2,33 @@ import { type HandlerContext, type HandlerEvent } from "@netlify/functions"
 
 import { HeistUser, Purchase, UserProfile } from "./types"
 
+export type Html_Extractor_Get_Attribute = {
+  type: "getAttribute"
+  selector: string
+  attribute: string
+}
+
+export type Html_Extractor_Text_Content = {
+  type: "textContent"
+  selector: string
+}
+
+export type Html_Extractor_Desc =
+  | Html_Extractor_Get_Attribute
+  | Html_Extractor_Text_Content
+
+export type Vendor_Information_Accessor = {
+  id: string
+  placement: string
+  price: Html_Extractor_Desc
+  image: Html_Extractor_Desc
+  name: Html_Extractor_Desc
+}
+
 export type Vendor_Spec = {
   vendor: string
   url: string
+  information_accessors?: Vendor_Information_Accessor[]
   placement: string[]
   price_id_selectors: string[]
   image_selectors: string[]

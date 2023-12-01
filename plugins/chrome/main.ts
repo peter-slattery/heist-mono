@@ -1,4 +1,4 @@
-import { Vendor_Spec } from "@heist/common/contracts"
+import { Html_Extractor_Desc, Vendor_Spec } from "@heist/common/contracts"
 import { type PluginInvestData } from "@heist/common/pluginContract"
 import { log } from "../common/log"
 
@@ -6,6 +6,7 @@ declare const HEIST_PLUGIN_ENDPOINT: string
 
 let vendor_specs: Vendor_Spec[]
 let vendor_spec: Vendor_Spec | null = null
+let information_accessor = -1
 document.addEventListener("receivedVendorData", (event) => {
   vendor_specs = (event as CustomEvent).detail as Vendor_Spec[]
 
@@ -58,101 +59,6 @@ const stylesheet: HTMLStyleElement = document.createElement("style")
 stylesheet.innerHTML = styles
 document.head.appendChild(stylesheet)
 
-/*
-const vendor_specs: Vendor_Spec[] = [
-  {
-    vendor: "Amazon",
-    url: "amazon.com",
-    placement: [".add-to-cart-data", "#partialStateBuybox"],
-    price_id_selectors: [".a-price .a-offscreen", '[data-a-color="price"]'],
-    image_selectors: ['[data-a-image-name="landingImage"]'],
-    name_selectors: ["#productTitle"],
-  },
-  {
-    vendor: "West Elm",
-    url: "westelm.com",
-    placement: [".add-to-cart-container > div > .atc-container"],
-    price_id_selectors: [".purchasing-container .product-price .amount"],
-    image_selectors: ["#hero-0"],
-    name_selectors: [".product-info .heading-title-pip"],
-  },
-  {
-    vendor: "Anthropologie",
-    url: "anthropologie.com/shop/",
-    placement: [
-      ".c-pwa-product-info-supplemental .u-pwa-form-field.o-pwa-primary-actions",
-    ],
-    price_id_selectors: [
-      ".c-pwa-product-container .c-pwa-product-price__current.s-pwa-product-price__current",
-    ],
-    image_selectors: [".c-pwa-product-container source"],
-    name_selectors: [".c-pwa-product-container h1"],
-  },
-  {
-    vendor: "Anthropologie Living",
-    url: "anthropologie.com/anthroliving/shop",
-    placement: [".u-pwa-form-field.o-pwa-primary-actions"],
-    price_id_selectors: [
-      ".c-pwa-product-price__current.s-pwa-product-price__current",
-    ],
-    image_selectors: [".o-pwa-image__img.c-pwa-image-viewer__img"],
-    name_selectors: [".c-pwa-product-meta-heading"],
-  },
-  {
-    vendor: "Home Depot",
-    url: "homedepot.com/p/",
-    placement: [".buybox__actions--atc"],
-    price_id_selectors: [
-      ".price-format__large.price-format__main-price :nth-child(2)",
-    ],
-    image_selectors: [".mediagallery__mainimage--clickable img"],
-    name_selectors: [".product-details__badge-title--wrapper h1"],
-  },
-  {
-    vendor: "Lowes",
-    url: "lowes.com/pd/",
-    placement: [".atc-buy-box"],
-    price_id_selectors: [".main-price"],
-    image_selectors: ["#imgCont0 img"],
-    name_selectors: ["#stickyNav-container #pdp-lpd h1"],
-  },
-  {
-    vendor: "Target",
-    url: "target.com/p/",
-    placement: [".styles__ThreeUpButtonWrapper-sc-11rka0i-0"],
-    price_id_selectors: ['[data-test="product-price"]'],
-    image_selectors: ['[data-test="image-gallery-item-0"] img'],
-    name_selectors: ['[data-test="product-title"]'],
-  },
-  {
-    vendor: "Wayfair",
-    url: "wayfair.com/",
-    placement: [".CallToActionGrid-addToCartButton"],
-    price_id_selectors: ['[data-enzyme-id="PdpLayout-infoBlock"] .SFPrice'],
-    image_selectors: ['[data-enzyme-id="InitialImage"]'],
-    name_selectors: [
-      '[data-enzyme-id="PdpLayout-infoBlock"] .ProductDetailInfoBlock-header [data-hb-id="Heading"]',
-    ],
-  },
-  {
-    vendor: "Etsy",
-    url: "etsy.com/listing",
-    placement: ['.add-to-cart-form [data-selector="add-to-cart-button"]'],
-    price_id_selectors: [
-      '#listing-page-cart [data-selector="price-only"] > p:first-child',
-    ],
-    image_selectors: ['[data-perf-group="main-product-image"]'],
-    name_selectors: ["h1"],
-  },
-]
-const vendor_specs_matching = vendor_specs.filter((vendor) => {
-  return window.location.href.includes(vendor.url)
-})
-
-const vendor_spec: Vendor_Spec =
-  vendor_specs_matching.length > 0 ? vendor_specs_matching[0] : vendor_specs[0]
-*/
-
 function queryAllSelectors<T extends HTMLElement>(
   selectorsArray: string[]
 ): T[] {
@@ -164,27 +70,72 @@ function queryAllSelectors<T extends HTMLElement>(
   return result
 }
 
+function html_extract(
+  extractor: Html_Extractor_Desc,
+  index: number
+): string | undefined {
+  let value: string | null
+  switch (extractor.type) {
+    case "getAttribute": {
+      const instances = document.querySelectorAll(extractor.selector)
+      if (index >= instances.length || !instances[index]) return
+      value = instances[index].getAttribute(extractor.attribute)
+      break
+    }
+
+    case "textContent": {
+      const instances = document.querySelectorAll(extractor.selector)
+      if (index >= instances.length || !instances[index]) return
+      value = instances[index].textContent
+      break
+    }
+  }
+  return value ?? undefined
+}
+
 function heist_on_invest(event: MouseEvent) {
   event.preventDefault()
   event.stopPropagation()
 
   if (!vendor_spec) return
 
-  const prices = queryAllSelectors(vendor_spec.price_id_selectors)
-  const names = queryAllSelectors(vendor_spec.name_selectors).map(
-    (p) => p.innerText
-  )
-  const images = queryAllSelectors<HTMLImageElement>(
-    vendor_spec.image_selectors
-  ).map((p) => p.src || p.srcset.split(" ")[0])
+  let data: PluginInvestData
+  if (vendor_spec.information_accessors) {
+    const target = event.target as HTMLElement | null
+    const index = target?.getAttribute("data-heist-index")
+    const index_value = index ? parseInt(index) : 0
+    log("Index", index, event.target)
 
-  log(prices[0].innerText, names[0], images[0])
-  const data: PluginInvestData = {
-    price: prices[0].innerText,
-    name: names[0],
-    imageUrl: images[0],
-    productUrl: window.location.href,
+    const accessor = vendor_spec.information_accessors[information_accessor]
+    const price = html_extract(accessor.price, index_value)
+    const name = html_extract(accessor.name, index_value)
+    const image = html_extract(accessor.image, index_value)
+
+    data = {
+      price: price ?? "",
+      name: name ?? "",
+      imageUrl: image ?? "",
+      productUrl: window.location.href,
+    }
+  } else {
+    const prices = queryAllSelectors(vendor_spec.price_id_selectors)
+    const names = queryAllSelectors(vendor_spec.name_selectors).map(
+      (p) => p.innerText
+    )
+    const images = queryAllSelectors<HTMLImageElement>(
+      vendor_spec.image_selectors
+    ).map((p) => p.src || p.srcset.split(" ")[0])
+
+    data = {
+      price: prices[0].innerText,
+      name: names[0],
+      imageUrl: images[0],
+      productUrl: window.location.href,
+    }
   }
+
+  log("Sending Product Info", { data })
+
   const queryString = new URLSearchParams(data)
   const base =
     HEIST_PLUGIN_ENDPOINT[HEIST_PLUGIN_ENDPOINT.length - 1] === "/"
@@ -193,25 +144,39 @@ function heist_on_invest(event: MouseEvent) {
   open(`${base}invest?${queryString.toString()}`, "_blank")
 }
 
+function populate_button(parent: Element, index: number = 0) {
+  const html = `
+  <div class="heist_cta" data-heist-index='${index}'>
+    HEIST
+  </div>
+  `
+  const insertion = document.createElement("div")
+  insertion.classList.add("heist_add_to_cart")
+  insertion.addEventListener("click", heist_on_invest)
+  insertion.innerHTML = html
+  parent.appendChild(insertion)
+}
+
 function populate_from_spec(spec: Vendor_Spec) {
+  if (spec.information_accessors) {
+    // TODO(PS): iterate thru until success
+    information_accessor = 0
+    const accessor = spec.information_accessors[information_accessor]
+    console.log(`Using accessor: ${accessor.id}`)
+    const parents = document.querySelectorAll(accessor.placement)
+    for (let i = 0; i < parents.length; i++) {
+      if (!parents[i]) continue
+      populate_button(parents[i], i)
+    }
+    return
+  }
+
   for (let j = 0; j < spec.placement.length; j++) {
     const selector = spec.placement[j]
     const parents = document.querySelectorAll(selector)
     for (let i = 0; i < parents.length; i++) {
-      const button = parents[i]
-      if (!button) continue
-
-      const html = `
-  <div class="heist_cta">
-    HEIST
-  </div>
-  `
-      const insertion = document.createElement("div")
-      insertion.classList.add("heist_add_to_cart")
-      insertion.addEventListener("click", heist_on_invest)
-      insertion.innerHTML = html
-      button.appendChild(insertion)
-
+      if (!parents[i]) continue
+      populate_button(parents[i])
       return
     }
   }

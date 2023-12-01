@@ -8,7 +8,7 @@ chrome.runtime.onMessage.addListener((message, sender, senderResponse) => {
     const time_since_cache = Date.now() - cache_time
     const should_refresh = time_since_cache / (1000 * 60 * 60) > 1
     console.log(time_since_cache / (1000 * 60 * 60), should_refresh)
-    if (!should_refresh) {
+    if (false && !should_refresh) {
       console.log("Using Cached")
       senderResponse(cached_vendor_spec)
     } else {
