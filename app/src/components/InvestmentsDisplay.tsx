@@ -2,6 +2,7 @@ import { Purchase } from "@heist/common/types"
 import { createUseStyles, useTheme } from "../theme"
 import { ReactElement } from "react"
 import { Body, BodyBold } from "../designSystem/Typography"
+import { formatMoney } from "../utils/formatMoney"
 
 const useStyles = createUseStyles((theme) => ({
   layout: {
@@ -81,7 +82,7 @@ const PurchaseDisplay = ({ purchase }: { purchase: Purchase }) => {
       <img className={styles.productImage} src={purchase.imageUrl} />
       <div className={styles.productInfoRow}>
         <Body>{purchase.name}</Body>
-        <BodyBold>${purchase.price}</BodyBold>
+        <BodyBold>{purchase.price}</BodyBold>
       </div>
     </div>
   )

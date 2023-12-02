@@ -10,6 +10,7 @@ import { useUserPurchases } from "../../hooks/useUserPurchases"
 import { InvestmentsDisplay } from "../../components/InvestmentsDisplay"
 import { HeistButton } from "../../designSystem/HeistButton"
 import { InvestmentsMoneyRow } from "../../components/InvestmentsMoneyRow"
+import { formatMoney } from "../../utils/formatMoney"
 
 const useStyles = createUseStyles((theme) => ({
   layout: {
@@ -146,6 +147,8 @@ export const PurchaseScreen = () => {
       })
   }
 
+  const priceString = formatMoney(price)
+
   return (
     <Layout>
       <div className={styles.outer}>
@@ -167,13 +170,13 @@ export const PurchaseScreen = () => {
               <div className={styles.centered}>
                 <H1>Ooh, good find.</H1>
                 <Body>
-                  Save it as an option for now, and make {price} on it in the
-                  mean time.
+                  Save it as an option for now, and make {priceString} on it in
+                  the mean time.
                 </Body>
               </div>
               <div className={styles.productInfoRow}>
                 <BodyBold>Put away now:</BodyBold>
-                <BodyBold>{price}</BodyBold>
+                <BodyBold>{priceString}</BodyBold>
               </div>
               <Body>
                 We’ll save this for you today, and remind you to put the money
@@ -182,7 +185,7 @@ export const PurchaseScreen = () => {
             </div>
           </div>
           <HeistButton onClick={onInvest}>
-            Earn {price} for future you
+            Earn {priceString} for future you
           </HeistButton>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { Body } from "@app/designSystem/Typography"
 import classNames from "classnames"
 import { createUseStyles, useTheme } from "../theme"
+import { formatMoney } from "../utils/formatMoney"
 
 const useStyles = createUseStyles((theme) => ({
   outer: {
@@ -51,15 +52,17 @@ export const InvestmentsMoneyRow = ({ total }: Props) => {
   const theme = useTheme()
   const styles = useStyles({ theme })
 
+  const totalToday = formatMoney(total.today)
+  const totalAtGoal = formatMoney(total.atGoal)
   return (
     <span className={styles.moneyRow}>
       <div className={styles.moneyColumn}>
-        <div className={styles.moneyDisplay}>${total.today.toFixed(2)}</div>
+        <div className={styles.moneyDisplay}>{totalToday}</div>
         <Body>Invested for your future!</Body>
       </div>
       <div className={styles.horizontalLine}></div>
       <div className={classNames(styles.moneyColumn, styles.rightAlign)}>
-        <div className={styles.moneyDisplay}>${total.atGoal.toFixed(2)}</div>
+        <div className={styles.moneyDisplay}>{totalAtGoal}</div>
         <Body>how this will grow by your big day</Body>
       </div>
     </span>
