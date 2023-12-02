@@ -125,12 +125,9 @@ export const PurchaseScreen = () => {
     setProductName(params.name)
   }, [])
 
-  useEffect(() => {
-    console.log(user)
-    if (!user) {
-      openLoginForm("login")
-    }
-  }, [user])
+  const openLogin = () => {
+    openLoginForm("login")
+  }
 
   const onInvest = () => {
     setLoading(true)
@@ -184,9 +181,13 @@ export const PurchaseScreen = () => {
               </Body>
             </div>
           </div>
-          <HeistButton onClick={onInvest}>
-            Earn {priceString} for future you
-          </HeistButton>
+          {user ? (
+            <HeistButton onClick={onInvest}>
+              Earn {priceString} for future you
+            </HeistButton>
+          ) : (
+            <HeistButton onClick={openLogin}>Log In to Invest</HeistButton>
+          )}
         </div>
       </div>
     </Layout>
