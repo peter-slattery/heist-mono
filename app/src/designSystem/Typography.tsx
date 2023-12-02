@@ -24,13 +24,14 @@ const useStyles = createUseStyles((theme) => ({
     lineHeight: "normal",
   },
   body: {
+    fontFamily: theme.fonts.inter,
     fontSize: 18,
     fontStyle: "normal",
     fontWeight: 400,
     lineHeight: "normal",
   },
   bodyBold: {
-    fontFamily: theme.fonts.archivoBlack,
+    fontFamily: theme.fonts.inter,
     fontSize: 18,
     fontStyle: "normal",
     fontWeight: 700,

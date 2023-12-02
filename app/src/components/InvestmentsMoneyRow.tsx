@@ -30,6 +30,9 @@ const useStyles = createUseStyles((theme) => ({
     fontWeight: 400,
     lineHeight: "normal",
   },
+  gray: {
+    color: theme.colors.gray350,
+  },
   horizontalLine: {
     margin: [0, 10, 0, 10],
     flexGrow: 1,
@@ -57,8 +60,10 @@ export const InvestmentsMoneyRow = ({ total }: Props) => {
   return (
     <span className={styles.moneyRow}>
       <div className={styles.moneyColumn}>
-        <div className={styles.moneyDisplay}>{totalToday}</div>
-        <Body>Invested for your future!</Body>
+        <div className={classNames(styles.moneyDisplay, styles.gray)}>
+          {totalToday}
+        </div>
+        <Body className={styles.gray}>invested for your future!</Body>
       </div>
       <div className={styles.horizontalLine}></div>
       <div className={classNames(styles.moneyColumn, styles.rightAlign)}>
