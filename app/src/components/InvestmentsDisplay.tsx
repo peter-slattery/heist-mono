@@ -5,6 +5,9 @@ import { Body, BodyBold } from "../designSystem/Typography"
 import { formatMoney } from "../utils/formatMoney"
 
 const useStyles = createUseStyles((theme) => ({
+  button: {
+    cursor: "pointer",
+  },
   layout: {
     display: "grid",
     gridTemplateColumns: "repeat(5, 1fr)",
@@ -77,8 +80,12 @@ const PurchaseDisplay = ({ purchase }: { purchase: Purchase }) => {
   const theme = useTheme()
   const styles = useStyles({ theme })
 
+  const navToProduct = () => {
+    open(purchase.productUrl)
+  }
+
   return (
-    <div>
+    <div className={styles.button} onClick={navToProduct}>
       <img className={styles.productImage} src={purchase.imageUrl} />
       <div className={styles.productInfoRow}>
         <Body>{purchase.name}</Body>
